@@ -24,8 +24,6 @@ func _process(delta):
 	match state:
 		IDLE:
 			idle()
-		CHASE:
-			chase()
 	
 func move_navigation():
 	velocity = Vector2.ZERO
@@ -134,4 +132,4 @@ func hurt(attack_dir_animation):
 
 func change_team(team_target):
 	team = team_target
-	$Sprite.texture = load(str("res://assets/characters/soldiers/melee/Swordsman" + team + ".png"))
+	$Sprite.texture = load(str("res://assets/characters/workers/Farmer" + team + ".png"))

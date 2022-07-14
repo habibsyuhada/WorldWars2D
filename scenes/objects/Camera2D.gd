@@ -36,10 +36,27 @@ func detect_input(event):
 			events[event.index] = event
 			events_check_drag[event.index] = false
 		else:
-			if cursor and !events_check_drag[event.index]:
-				var targetpos = get_viewport().canvas_transform.affine_inverse().xform(event.position)
-				#cursor.position = targetpos
-				change_pos_cursor(targetpos)
+			if events_check_drag[event.index]:
+				return
+			var targetpos = get_viewport().canvas_transform.affine_inverse().xform(event.position)
+			
+			var itemlist = get_node_or_null("/root/GUI/HUD/ItemList")
+			if itemlist and itemlist.get_selected_items().size() > 0:
+				var item_selected = itemlist.get_selected_items()[0]
+				var metadata_item_selected = itemlist.get_item_metadata(item_selected)
+				if metadata_item_selected == 'Swordman':
+					itemlist.get_item_metadata(item_selected)
+					var swordman = Global.Swordman_Instance.instance()
+					swordman.position = Global.world_tile.map_to_world(Global.world_tile.world_to_map(targetpos))
+					swordman.position += Vector2(8, 8)
+					$"/root/World/Char".add_child(swordman)
+				elif metadata_item_selected == 'Worker':
+					itemlist.get_item_metadata(item_selected)
+					var worker = Global.Worker_Instance.instance()
+					worker.position = Global.world_tile.map_to_world(Global.world_tile.world_to_map(targetpos))
+					worker.position += Vector2(8, 8)
+					$"/root/World/Char".add_child(worker)
+			
 			events.erase(event.index)
 
 	if event is InputEventScreenDrag:

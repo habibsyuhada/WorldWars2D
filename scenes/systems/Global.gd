@@ -8,6 +8,10 @@ onready var territory_tile = get_node_or_null("/root/World/Navigation2D/Territor
 onready var world_tile = get_node_or_null("/root/World/Navigation2D/TileMap")
 onready var astar_tile = get_node_or_null("/root/World/Navigation2D/Astar_Tilemap")
 
+export (PackedScene) var Tree_Instance
+export (PackedScene) var Worker_Instance
+export (PackedScene) var Swordman_Instance
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
