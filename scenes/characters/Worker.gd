@@ -87,8 +87,9 @@ func foraging():
 		var forecast_target_node = null
 		for tree in $Sight.get_overlapping_areas():
 			if tree.get("object_name") and tree.object_name == "tree":
-				if !forecast_target_node or (position - tree.position).length() < (position - tree.position).length():
-					forecast_target_node = tree
+				if tree.get("resource_available") and tree.resource_available :
+					if !forecast_target_node or (position - tree.position).length() < (position - forecast_target_node.position).length():
+						forecast_target_node = tree
 		target_node = forecast_target_node
 	
 	if last_tile_position != Global.astar_tile.local_world_to_map(position) and target_node:
@@ -96,10 +97,16 @@ func foraging():
 		var target_pos = target_node.position
 		path = Global.astar_tile.get_astar_path(position, target_pos)
 	
-	if target_node in $Body.get_overlapping_areas():
-		state_anim_machine.travel(str("Slash_" + dir_animation))
+	if target_node:
+		if target_node.resource_available:
+			if target_node in $Body.get_overlapping_areas():
+				state_anim_machine.travel(str("Slash_" + dir_animation))
+			else:
+				move_navigation()
+		else:
+			target_node = null
 	else:
-		move_navigation()
+		idle()
 		
 func chase():
 	if !target_node:
@@ -129,7 +136,7 @@ func _on_Sight_area_exited(area):
 
 func slash():
 	if state == FORAGING:
-		AICore.data_ai[team]["wood"] += 1
+		AICore.data_ai[team]["wood"] += randi()%3 + 1
 	target_node.hurt(dir_animation)
 
 func hurt(attack_dir_animation):

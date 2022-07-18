@@ -35,6 +35,9 @@ func ai_process(team) :
 				if req in ["wood", "food"]:
 					if req_list[req] > data_ai[team][req] :
 						level_up = false
+				if req == "wheat_field":
+					if req_list[req] > get_tree().get_nodes_in_group("Wheat Field " + team).size():
+						level_up = false
 				elif req == "worker":
 					if req_list[req] > get_tree().get_nodes_in_group("Worker " + team).size():
 						level_up = false
@@ -43,12 +46,10 @@ func ai_process(team) :
 						level_up = false
 	
 	var division = []
-	
 	if req_level[team]["wood"] > data_ai[team]["wood"]:
 		division.push_back("wood")
 	if req_level[team]["food"] > data_ai[team]["food"]:
 		division.push_back("food")
-	
 	if division.size() == 0:
 		return yield(get_tree(), "idle_frame")
 	var max_employee_division = req_level[team]["worker"] / division.size()
