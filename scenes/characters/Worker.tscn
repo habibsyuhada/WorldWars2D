@@ -84,25 +84,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 40, 43 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:state")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.7 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -125,25 +113,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 55, 58 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:state")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.7 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -166,25 +142,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 50, 53 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:state")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.7 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -207,25 +171,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 45, 48 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:state")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.7 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -439,12 +391,13 @@ extents = Vector2( 7, 7 )
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )
+state = 1
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 hframes = 5
 vframes = 12
-frame = 16
+frame = 1
 
 [node name="BodyHurtArea" type="CollisionShape2D" parent="."]
 visible = false
@@ -472,15 +425,16 @@ active = true
 parameters/playback = SubResource( 13 )
 
 [node name="Sight" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sight"]
 shape = SubResource( 40 )
 
 [node name="Body" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 shape = SubResource( 41 )
 
 [connection signal="area_entered" from="Sight" to="." method="_on_Sight_area_entered"]
 [connection signal="area_exited" from="Sight" to="." method="_on_Sight_area_exited"]
-[connection signal="area_entered" from="Body" to="." method="_on_Body_area_entered"]

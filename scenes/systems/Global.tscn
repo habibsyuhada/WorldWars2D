@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/systems/Global.gd" type="Script" id=1]
 [ext_resource path="res://scenes/objects/Tree.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/characters/Worker.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/characters/Swordman.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/buildings/House.tscn" type="PackedScene" id=5]
 
 [node name="Global" type="Node2D"]
 script = ExtResource( 1 )
 Tree_Instance = ExtResource( 2 )
+House_Instance = ExtResource( 5 )
 Worker_Instance = ExtResource( 3 )
 Swordman_Instance = ExtResource( 4 )

@@ -12,7 +12,7 @@ func _ready():
 		for tile in Global.world_tile.get_used_cells():
 			if Global.world_tile.get_cell(tile.x, tile.y) in [1] :
 				var random = randi()%100+1
-				if random > 90:
+				if random > 95:
 					var tree = Global.Tree_Instance.instance()
 					tree.position = Global.world_tile.map_to_world(tile)
 					tree.position += Vector2(8, 8)
@@ -21,7 +21,7 @@ func _ready():
 					Global.astar_tile.astar_node.set_point_weight_scale(id_astar, 1.5)
 			elif Global.world_tile.get_cell(tile.x, tile.y) in [2] :
 				var random = randi()%100+1
-				if random > 20:
+				if random > 70:
 					var tree = Global.Tree_Instance.instance()
 					tree.position = Global.world_tile.map_to_world(tile)
 					tree.position += Vector2(8, 8)
