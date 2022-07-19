@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 6 )
 
-[node name="Tree" type="Area2D"]
+[node name="Tree" type="Area2D" groups=["Resource"]]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -16,3 +16,5 @@ hframes = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource( 1 )
+
+[connection signal="area_entered" from="." to="." method="_on_Tree_area_entered"]

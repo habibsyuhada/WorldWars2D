@@ -11,9 +11,34 @@ var building = {
 		"max_people": 2,
 		"max_storage": 0,
 	},
+	"wheat_field":{
+		"cost":{
+			"wood": 5
+		},
+		"territory": 6,
+		"max_people": 0,
+		"max_storage": 0,
+	},
 }
 
-var team_list = ['Lime', 'Cyan', 'Red', 'Purple']
+var unit = {
+	"worker":{
+		"cost":{
+			"wood": 5,
+			"food": 5,
+		},
+		"build_time": 15,
+	},
+	"swordman":{
+		"cost":{
+			"wood": 15,
+			"food": 15,
+		},
+		"build_time": 25,
+	},
+}
+
+var team_list = ['Lime', 'Cyan', 'Red', 'Purple'] #urut bedarasarkan territory tile set
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

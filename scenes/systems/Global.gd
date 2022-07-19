@@ -11,6 +11,7 @@ onready var astar_tile = get_node_or_null("/root/World/Navigation2D/Astar_Tilema
 export (PackedScene) var Tree_Instance
 
 export (PackedScene) var House_Instance
+export (PackedScene) var Wheat_Field_Instance
 
 export (PackedScene) var Worker_Instance
 export (PackedScene) var Swordman_Instance
@@ -37,7 +38,15 @@ func change_territory(source_position, large, additon, team, force = false):
 				elif territory_tile.get_cell(tile.x, tile.y)  == -1 :
 					territory_tile.set_cell(tile.x, tile.y, MasterData.team_list.find(team))
 
+func add_building(object_target):
+	var building_container = get_node_or_null("/root/World/Houses")
+	if building_container and object_target:
+		building_container.add_child(object_target)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func add_people(object_target):
+	var people_container = get_node_or_null("/root/World/Map/Char")
+	if people_container and object_target:
+		people_container.add_child(object_target)
+
+func _on_refresh_resource_timer_timeout():
+	get_tree().call_group("Resource", "increase_resource")
