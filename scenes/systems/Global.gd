@@ -22,7 +22,19 @@ var number_team = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-	
+
+func _physics_process(delta):
+	if Input.is_action_just_released("`"):
+		Engine.time_scale = 0.1
+	elif Input.is_action_just_released("1"):
+		Engine.time_scale = 1
+	elif Input.is_action_just_released("2"):
+		Engine.time_scale = 2
+	elif Input.is_action_just_released("3"):
+		Engine.time_scale = 3
+	elif Input.is_action_just_released("4"):
+		Engine.time_scale = 4
+
 func change_territory(source_position, large, additon, team, force = false):
 	if territory_tile:
 		var tilepos = territory_tile.world_to_map(source_position)
@@ -44,9 +56,17 @@ func add_building(object_target):
 		building_container.add_child(object_target)
 
 func add_people(object_target):
-	var people_container = get_node_or_null("/root/World/Map/Char")
+	var people_container = get_node_or_null("/root/World/Char")
 	if people_container and object_target:
 		people_container.add_child(object_target)
 
+func waits(s):
+	var t = Timer.new()
+	t.one_shot = true
+	self.add_child(t)
+	t.start(s)
+	yield(t, "timeout")
+	t.queue_free()
+	
 func _on_refresh_resource_timer_timeout():
 	get_tree().call_group("Resource", "increase_resource")

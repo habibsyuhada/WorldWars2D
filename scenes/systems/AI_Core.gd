@@ -64,6 +64,8 @@ func buy_building(building_name, team):
 		var field_list = []
 		if building_name == "wheat_field":
 			field_list += get_tree().get_nodes_in_group("Wheat Field " + team)
+		if building_name == "house":
+			field_list += get_tree().get_nodes_in_group("House " + team)
 		
 		var field_list_sort = []
 		for field in field_list:
@@ -116,15 +118,21 @@ func buy_worker(team):
 	if buyable:
 		var house_list = get_tree().get_nodes_in_group("House " + team)
 		if house_list.size() > 0:
-			var random = randi()%(house_list.size() - 1)
+			var random = randi()%house_list.size()
 			house_target = house_list[random]
 	
 	if buyable and house_target:
-		pass
+		for cost in MasterData.unit["worker"]["cost"]:
+			data_ai[team][cost] -= MasterData.unit["worker"]["cost"][cost] 
+		yield(Global.waits(MasterData.unit["worker"]["build_time"]), "completed")
 		
+		var worker = Global.Worker_Instance.instance()
+		worker.position = house_target.position
+		Global.add_people(worker)
 
 func ai_process(team) :
 	var level_up = true
+	var level_set = false
 	for no in (max_level_reached[team] + 1):
 		var req_list = get_level_req(no)
 		if level_up or no <= max_level_reached[team]:
@@ -139,13 +147,23 @@ func ai_process(team) :
 				elif req == "worker":
 					if req_list[req] > get_tree().get_nodes_in_group("Worker " + team).size():
 						level_up = false
+						if data_ai[team]["max_people"] < req_list["max_people"] and no == max_level_reached[team]:
+							buy_worker(team)
 				elif req == "max_people":
 					if req_list[req] > get_tree().get_nodes_in_group("Units " + team).size():
-						if get_tree().get_nodes_in_group("Units " + team).size() < data_ai[team][req] :
-#							buy_building("house", team)
+						level_up = false
+						print(req)
+						if data_ai[team][req] < req_list[req] :
+							buy_building("house", team)
 							pass
-						else:
+						elif no == max_level_reached[team]:
 							buy_worker(team)
+#		print("ASD333333")
+		if level_up and !level_set:
+			if no == max_level_reached[team]:
+				max_level_reached[team] += 1
+				req_level[team] = get_level_req(max_level_reached[team])
+				level_set = true
 	
 	var division = []
 	if req_level[team]["wood"] > data_ai[team]["wood"]:
@@ -182,6 +200,6 @@ func get_level_req(level_req):
 			"food" : 5 + floor(level_req * 8),
 			"wheat_field" : 4 + floor(level_req * 0.3),
 			"max_people" : 4 + floor(level_req * 0.3),
-			"worker" : 4 + floor(level_req * 0.1),
+			"worker" : 3 + floor(level_req * 0.1),
 		}
 	return based_req_level

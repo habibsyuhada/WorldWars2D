@@ -112,7 +112,7 @@ func foraging():
 		path = Global.astar_tile.get_astar_path(position, target_pos)
 	
 	if target_node:
-		if target_node.resource_available:
+		if target_node and target_node.resource_available:
 			if target_node in $Body.get_overlapping_areas():
 				state_anim_machine.travel(str("Slash_" + dir_animation))
 			else:
@@ -138,7 +138,7 @@ func gathering():
 		if forecast_target_node:
 			forecast_target_node.forecast_worker = self
 	
-	if last_tile_position != Global.astar_tile.local_world_to_map(position) and target_node:
+	if (last_tile_position != Global.astar_tile.local_world_to_map(position) or path.size() == 0) and target_node:
 		last_tile_position = Global.astar_tile.local_world_to_map(position)
 		var target_pos = target_node.position
 		path = Global.astar_tile.get_astar_path(position, target_pos)
@@ -164,18 +164,19 @@ func _on_Sight_area_exited(area):
 		pass
 
 func slash():
-	if state == FORAGING:
-		var random = randi()%100+1
-		if random <= 50:
-			AICore.data_ai[team]["wood"] += randi()%3 + 1
+	if target_node:
+		if state == FORAGING:
+			var random = randi()%100+1
+			if random <= 50:
+				AICore.data_ai[team]["wood"] += randi()%3 + 1
+				target_node.hurt(dir_animation)
+		elif state == GATHERING:
+			var random = randi()%100+1
+			if random <= 50:
+				AICore.data_ai[team]["food"] += randi()%3 + 1
+				target_node.hurt(dir_animation)
+		else:
 			target_node.hurt(dir_animation)
-	elif state == GATHERING:
-		var random = randi()%100+1
-		if random <= 50:
-			AICore.data_ai[team]["food"] += randi()%3 + 1
-			target_node.hurt(dir_animation)
-	else:
-		target_node.hurt(dir_animation)
 
 func hurt(attack_dir_animation):
 	state = HURT
@@ -224,6 +225,8 @@ func init_team():
 			$"/root/World/Houses".add_child(house)
 	
 	add_to_group("Worker " + team)
+	add_to_group("Units " + team)
+	change_group_state("Worker Idle " + team)
 	
 	change_team(team)
 
